@@ -17,7 +17,7 @@ const usersRouter = require('./routes/users');
 
 // Подключаем mongoose.
 
-mongoose.connect('mongodb://localhost:27017/recipe', {
+mongoose.connect('mongodb://localhost:27017/green-recipe', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
