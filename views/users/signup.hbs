@@ -1,0 +1,29 @@
+<h1>Sign Up</h1>
+
+{{#if error}}
+<div>
+<h5 class="error">{{error.message}}</h5>
+</div>
+{{/if}}
+
+<div class="container row">
+    <div class="jumbotron col-sm-4 pull-center">
+        <form action="/users" method="post">
+            <div>
+                <label>Username:</label>
+                <input type="text" name="username" />
+            </div>
+            <div>
+                <label>Email:</label>
+                <input type="text" name="email" />
+            </div>
+            <div>
+                <label>Password:</label>
+                <input type="password" name="password" />
+            </div>
+            <div>
+                <input class="button" type="submit" value="Sign Up" />
+            </div>
+        </form>
+    </div>
+</div>

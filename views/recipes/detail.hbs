@@ -1,0 +1,16 @@
+<h1>{{recipe.name}}</h1>
+
+<!--<span class="entry-date block font-3-4 c-lt-gray">Written on long_form_date(entry.createdAt)</span>-->
+{{!-- <span class="entry-date block font-3-4 c-lt-gray">Written on {{recipe.createdAt}}</span> --}}
+<h3>Сумма: {{recipe.priceTotal}}</h3>
+<h3>Калорийность: {{recipe.caloriesTotal}}</h3>
+<h5>Ингредиенты:</h5>
+<ul>
+{{#each recipe.ingredients}}
+<li>
+<p><a href="{{this.link}}">{{this.name}}</a> x {{this.quantity}} ({{this.priceTotal}} рублей)</p>
+</li>
+{{/each}}
+</ul>
+<h5>Инструкции:</h5>
+<p>{{recipe.instructions}}</p>

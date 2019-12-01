@@ -1,0 +1,70 @@
+<h1>Что вы хотите изменить?</h1>
+
+{{#if errors}}
+<span>Something went wrong:</span>
+<ul class="error-list pad-b-2">
+    {{#each errors as |error|}}
+    <li class="error-item">{{error}}</li>
+    {{/each}}
+</ul>
+{{/if}}
+
+<form method="post" action="/recipes/{{recipe.id}}">
+    <input type="hidden" name="_method" value="put">
+
+    <label for="name-input" class="block mar-b-1">Название рецепта:</label>
+    <input id="name-input" name="name" type="text" value="{{recipe.name}}" tabindex="1"
+        class="block w-100 no-outline no-border pad-1 mar-b-2" required>
+
+    {{!-- <label for="image-input" class="block mar-b-1">Изображение:</label>
+        <input id="image-input" name="image" type="text" value="{{recipe.image}}" tabindex="1"
+            class="block w-100 no-outline no-border pad-1 mar-b-2"> --}}
+
+    <label for="instructions-textarea" class="block mar-b-1">Инструкции:</label>
+    <textarea id="instructions-textarea" name="instructions" tabindex="2"
+        class="block w-100 h-10 no-resize no-outline no-border no-resize pad-1 mar-b-2"
+        required>{{recipe.instructions}}</textarea>
+
+    <div id="ingredients-container">
+        {{#each recipe.ingredients}}
+        <h5>Ингредиент {{@index}}</h5>
+        <label>Ссылка</label><br>
+        <input name="links[]" type="text" value="{{this.link}}" tabindex="1"
+            class="block w-100 no-outline no-border pad-1 mar-b-2" required>
+        <label>Вес (гр)</label><br>
+        <input name="weights[]" type="text" value="{{this.weight}}" tabindex="1"
+            class="block w-100 no-outline no-border pad-1 mar-b-2" required>
+        <label>Количество</label><br>
+        <input name="quantities[]" type="text" value="{{this.quantity}}" tabindex="1"
+            class="block w-100 no-outline no-border pad-1 mar-b-2" required>
+        {{/each}}
+    </div>
+    <a href="javascript:;" id="add-new-ingredient" class="add-new-ingredient">Добавить ингредиент</a>
+
+    <input type="submit" value="Добавить рецепт" tabindex="3"
+        class="block button w-100 mar-t-4 mar-b-3 pad-2 round-1 text-c center no-border no-outline">
+</form>
+
+<script>
+    let i = 2;
+    document.getElementById('add-new-ingredient').onclick = function () {
+        let template = `
+            <h5>Ингредиент ${i}</h5>
+            <label>Ссылка</label><br>
+            <input name="links[]" type="text" value="{{recipe.link}}" tabindex="1"
+                class="block w-100 no-outline no-border pad-1 mar-b-2" required>
+            <label>Вес (гр)</label><br>
+            <input name="weights[]" type="text" value="{{recipe.weight}}" tabindex="1"
+                class="block w-100 no-outline no-border pad-1 mar-b-2" required>
+            <label>Количество</label><br>
+            <input name="quantities[]" type="text" value="{{recipe.quantity}}" tabindex="1"
+                class="block w-100 no-outline no-border pad-1 mar-b-2" required>`;
+
+        let container = document.getElementById('ingredients-container');
+        let div = document.createElement('div');
+        div.innerHTML = template;
+        container.appendChild(div);
+
+        i++;
+    }
+</script>

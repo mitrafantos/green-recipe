@@ -1,0 +1,12 @@
+<h1>Все рецепты</h1>
+<main role="main">
+  <ul class="entries-list no-bullets no-padding">
+    {{#each recipes}}
+      <li class="entry-item pad-b-4">
+        <a href="/recipes/{{this._id}}" class="entry-title font-2 pad-b-1-4 c-white">{{this.name}}</a>
+        {{!-- <span class="entry-date block font-3-4 c-lt-gray">Written on {{this.createdAt}}</span>
+          <p class="entry-stub">{{this.body}}</p> --}}
+      </li>
+    {{/each}}
+  </ul>
+</main>
