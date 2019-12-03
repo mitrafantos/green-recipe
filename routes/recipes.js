@@ -33,10 +33,14 @@ router.post('/', async (req, res) => {
   const ingrs = [];
   for (let i = 0; i < ingredients.links.length; i++) {
     const link = ingredients.links[i];
-    const input = await parsePage(link);
-    input.weight = ingredients.weights[i];
-    const ingredient = new Ingredient(input);
-    ingrs.push(ingredient);
+    try {
+      const input = await parsePage(link);
+      input.weight = ingredients.weights[i];
+      const ingredient = new Ingredient(input);
+      ingrs.push(ingredient);
+    } catch (err) {
+      res.render('error', { err });
+    }
   }
   const newRecipe = new Recipe({
     name,
