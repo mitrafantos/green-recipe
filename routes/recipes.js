@@ -6,8 +6,6 @@ const { User } = require('../models/user');
 const Ingredient = require('../models/ingredient');
 const parsePage = require('../utilities/parser');
 
-console.log('started recipes');
-
 // recipes
 router.get('/', async (req, res) => {
   const recipes = await Recipe.mostRecent();
@@ -31,16 +29,12 @@ router.post('/', async (req, res) => {
   };
   const user = await User.findById(req.session.userID);
   const ingrs = [];
-  for (let i = 0; i < ingredients.links.length; i++) {
+  for (let i = 0; i < ingredients.links.length; i += 1) {
     const link = ingredients.links[i];
-    try {
-      const input = await parsePage(link);
-      input.weight = ingredients.weights[i];
-      const ingredient = new Ingredient(input);
-      ingrs.push(ingredient);
-    } catch (err) {
-      res.render('error', { err });
-    }
+    const input = await parsePage(link);
+    input.weight = ingredients.weights[i];
+    const ingredient = new Ingredient(input);
+    ingrs.push(ingredient);
   }
   const newRecipe = new Recipe({
     name,
@@ -48,12 +42,11 @@ router.post('/', async (req, res) => {
     instructions,
     ingredients: ingrs,
     author: user,
-    priceTotal: ingrs.reduce((total, ingredient) => total + ingredient.priceTotal, 0),
-    caloriesTotal: ingrs.reduce((total, ingredient) => total + ingredient.caloriesTotal, 0),
+    priceTotal: Math.round(ingrs.reduce((total, ingredient) => total + ingredient.priceTotal, 0)),
+    caloriesTotal: Math.round(ingrs.reduce((total, ingredient) => total + ingredient.caloriesTotal, 0)),
   });
   await newRecipe.save();
-  console.log(newRecipe);
-  res.redirect(`/users/${req.session.userID}`);
+  res.redirect('/recipes');
 });
 
 // detail Recipe
@@ -78,13 +71,13 @@ router.put('/:id', async (req, res) => {
   recipe.startsAt = req.body.startsAt;
   recipe.endsAt = req.body.endsAt;
   await recipe.save();
-  res.redirect(`/users/${req.session.userID}`);
+  res.redirect('/recipes');
 });
 
 // delete recipe
 router.delete('/:id', async (req, res) => {
   await Recipe.deleteOne({ _id: req.params.id });
-  res.redirect(`/users/${req.session.userID}`);
+  res.redirect('/recipes');
 });
 
 module.exports = router;

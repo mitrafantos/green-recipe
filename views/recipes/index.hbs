@@ -1,12 +1,37 @@
-<h1>Все рецепты</h1>
+{{!-- <h1>Все рецепты</h1>
 <main role="main">
   <ul class="entries-list no-bullets no-padding">
     {{#each recipes}}
       <li class="entry-item pad-b-4">
         <a href="/recipes/{{this._id}}" class="entry-title font-2 pad-b-1-4 c-white">{{this.name}}</a>
-        {{!-- <span class="entry-date block font-3-4 c-lt-gray">Written on {{this.createdAt}}</span>
-          <p class="entry-stub">{{this.body}}</p> --}}
       </li>
+    {{/each}}
+  </ul>
+</main> --}}
+
+<a href="/recipes/new" class="block button w-100 mar-t-2 mar-b-3 pad-2 round-1 text-c center">+ Добавить рецепт</a>
+
+
+<h2>Все рецепты</h2>
+
+<main role="main">
+  <ul class="entries-list no-bullets no-padding">
+    {{#each recipes}}
+    <li class="entry-item pad-b-4">
+      <a href="/recipes/{{this._id}}" class="entry-title font-2 pad-b-1-4 c-white">{{this.name}}</a>
+      <ul class="no-bullets no-padding mar-t-2">
+        <li class="pipe-separate left">
+          <a href="/recipes/{{ this.id }}/edit" class="c-white">Изменить</a>
+        </li>
+
+        <li class="pipe-separate left">
+          <form method="post" action="/recipes/{{this.id}}" class="inline">
+            <input type="hidden" name="_method" value="delete">
+            <input type="submit" value="Удалить" class="no-border no-outline no-bg c-white hover-underline">
+          </form>
+        </li>
+      </ul>
+    </li>
     {{/each}}
   </ul>
 </main>
