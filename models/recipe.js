@@ -16,4 +16,4 @@ recipeSchema.statics.mostRecent = async function () {
     .exec();
 };
 
-recipeSchema.methods.priceTotal =  module.exports = mongoose.model('Recipe', recipeSchema);
+module.exports = mongoose.model('Recipe', recipeSchema);
