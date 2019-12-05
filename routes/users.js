@@ -78,6 +78,21 @@ router.post('/', async (req, res) => {
   }
 });
 
+// user logout
+router.get('/logout', async (req, res, next) => {
+  if (req.session.userID && req.cookies.user_sid) {
+    try {
+      await req.session.destroy();
+      res.clearCookie('user_sid')
+      res.redirect('/recipes');
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    res.redirect('/users/login');
+  }
+});
+
 // user profile page
 router.get('/:id', async (req, res) => {
   const { userID, username } = req.session;
@@ -87,20 +102,6 @@ router.get('/:id', async (req, res) => {
     userID,
     username,
   });
-});
-
-// user logout
-router.get('/logout', async (req, res, next) => {
-  if (req.session.userID && req.cookies.user_sid) {
-    try {
-      await req.session.destroy();
-      res.redirect('/recipes');
-    } catch (error) {
-      next(error);
-    }
-  } else {
-    res.redirect('/users/login');
-  }
 });
 
 module.exports = router;
